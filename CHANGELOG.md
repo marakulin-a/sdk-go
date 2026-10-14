@@ -65,6 +65,10 @@ to docs, or any other relevant information.
   shutdown, no longer increments `temporal_sticky_cache_total_forced_eviction`. This aligns bulk
   cleanup with Java and Core-based SDKs. Qualifying capacity and other per-workflow removals remain
   counted, but dashboards may report fewer forced evictions.
+- `SignalWorkflow` and `SignalWithStartWorkflow` called from a Nexus operation handler now reuse the
+  operation's request ID, so a retried Nexus task no longer delivers the same signal twice. As a
+  result, a handler may send only one signal per call; a second one, to any workflow, returns a
+  `BAD_REQUEST` handler error instead of being silently deduplicated.
 
 ### Fixed
 
